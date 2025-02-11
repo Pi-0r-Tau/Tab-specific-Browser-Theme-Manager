@@ -420,6 +420,19 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCustomControlsVisibility(controls.tabColorScheme.value, controls.tabCustomControls);
     }
 
+    // Add debounce function at the top
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     // Event Listeners
     controls.colorScheme.addEventListener('change', (e) => {
         updateCustomControlsVisibility(e.target.value, controls.customControls);
@@ -601,7 +614,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Action buttons
-    controls.applyButton.addEventListener('click', applySettings);
+    const debouncedApplySettings = debounce(applySettings, 1000);
+    controls.applyButton.addEventListener('click', debouncedApplySettings);
     controls.resetButton.addEventListener('click', () => {
         chrome.storage.sync.clear(() => {
             Object.assign(controls, DEFAULT_SETTINGS);
@@ -855,8 +869,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const protectionControls = document.getElementById('protection-settings');
 
         if (protectionToggle && protectionControls) {
-            protectionToggle.dataset.active = (!data.protectionSettings.protectionEnabled).toString();  
-            protectionControls.classList.toggle('disabled', data.protectionSettings.protectionEnabled);  
+            protectionToggle.dataset.active = (!data.protectionSettings.protectionEnabled).toString();  // Reversed logic here
+            protectionControls.classList.toggle('disabled', data.protectionSettings.protectionEnabled);  // Reversed logic here
 
             // Set initial values
             if (controls.transitionSpeed) {
