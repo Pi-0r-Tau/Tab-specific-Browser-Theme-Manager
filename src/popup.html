@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Color Scheme Extension</title>
+</head>
+<body>
+    <div class="tab-navigation">
+        <button class="tab-button active" data-tab="general">General Settings</button>
+        <button class="tab-button" data-tab="tab-specific">Tab Settings</button>
+        <button class="tab-button" data-tab="accessibility">Accessibility</button>
+    </div>
+
+    <!-- General Settings Tab -->
+    <div class="tab-content" id="general">
+        <div class="control">
+            <label for="color-scheme">Color Scheme:</label>
+            <select id="color-scheme" aria-label="Choose color scheme">
+                <option value="default">Default</option>
+                <option value="greyscale">Greyscale</option>
+                <option value="sepia">Sepia</option>
+                <option value="highContrast">High Contrast</option>
+                <option value="darkMode">Dark Mode</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div class="control">
+            <div class="toggle-control">
+                <label class="toggle-label" for="lock-settings">
+                    <div class="toggle-content">
+                        <span class="toggle-title">Lock settings</span>
+                        <span class="toggle-subtitle">Apply current settings to all tabs in window</span>
+                    </div>
+                    <br>
+                    <span class="toggle-switch">
+                        <svg class="toggle-icon" viewBox="0 0 24 24" width="16" height="16">
+                            <!-- Unlocked icon (shown when inactive) -->
+                            <path class="icon-unlocked" d="M19 10h-1V7c0-2.76-2.24-5-5-5S8 4.24 8 7h2c0-1.66 1.34-3 3-3s3 1.34 3 3v3H6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zm0 10H5v-8h14v8zm-8-5c0 1.1.9 2 2 2s2-.9 2-2-2-2-2-2"></path>
+                            <!-- Locked icon (shown when active) -->
+                            <path class="icon-locked" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path>
+                        </svg>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <div class="control">
+            <div class="toggle-control theme-toggle">
+                <label class="toggle-label" for="theme-mode">
+                    <div class="toggle-content">
+                        <span class="toggle-title">Theme Mode</span>
+                        <span class="toggle-subtitle">Light or Dark theme</span>
+                    </div>
+                    <span class="toggle-switch">
+                        <svg class="toggle-icon" viewBox="0 0 24 24" width="16" height="16">
+                            <path class="icon-light" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                            <path class="icon-dark" d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+                        </svg>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <div class="control">
+            <label for="brightness-level">Brightness:</label>
+            <input type="range" id="brightness-level" min="50" max="150" value="100"
+                   aria-label="Adjust brightness level">
+            <span class="value-display" id="brightness-value">100%</span>
+        </div>
+
+        <div class="control">
+            <label for="text-size">Text Size:</label>
+            <input type="range" id="text-size" min="80" max="200" value="100"
+                   aria-label="Adjust text size">
+            <span class="value-display" id="text-size-value">100%</span>
+        </div>
+
+        <div id="custom-controls" class="control-group hidden">
+            <h4>Custom Colors</h4>
+            <div class="control">
+                <label for="text-color">Text Color:</label>
+                <input type="color" id="text-color" value="#000000"
+                       aria-label="Choose text color">
+                <button class="reset-color" data-for="text-color"
+                        aria-label="Reset text color">Reset</button>
+            </div>
+            <div class="control">
+                <label for="background-color">Background Color:</label>
+                <input type="color" id="background-color" value="#FFFFFF"
+                       aria-label="Choose background color">
+                <button class="reset-color" data-for="background-color"
+                        aria-label="Reset background color">Reset</button>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button id="apply-settings" class="button">Apply Settings</button>
+            <button id="reset-settings" class="button button-secondary">Reset Current Tab</button>
+        </div>
+    </div>
+
+    <!-- Tab Settings -->
+    <div class="tab-content hidden" id="tab-specific">
+        <div id="tabs-container" class="tabs-list" role="list" aria-label="List of open tabs"></div>
+
+        <div class="tab-settings">
+            <div class="control">
+                <label for="tab-name">Tab Name:</label>
+                <input type="text" id="tab-name" readonly aria-label="Current tab name">
+            </div>
+
+            <div class="control">
+                <label for="tab-color-scheme">Color Scheme:</label>
+                <select id="tab-color-scheme" aria-label="Choose tab color scheme">
+                    <option value="default">Default</option>
+                    <option value="greyscale">Greyscale</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="highContrast">High Contrast</option>
+                    <option value="darkMode">Dark Mode</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
+            <div class="control">
+                <label for="tab-brightness">Brightness:</label>
+                <input type="range" id="tab-brightness" min="50" max="150" value="100"
+                       aria-label="Adjust tab brightness level">
+                <span class="value-display" id="tab-brightness-value">100%</span>
+            </div>
+
+            <div class="control">
+                <label for="tab-text-size">Text Size:</label>
+                <input type="range" id="tab-text-size" min="80" max="200" value="100"
+                       aria-label="Adjust tab text size">
+                <span class="value-display" id="tab-text-size-value">100%</span>
+            </div>
+
+            <div id="tab-custom-controls" class="control-group hidden">
+                <h4>Custom Tab Colors</h4>
+                <div class="control">
+                    <label for="tab-text-color">Text Color:</label>
+                    <input type="color" id="tab-text-color" value="#000000"
+                           aria-label="Choose tab text color">
+                    <button class="reset-color" data-for="tab-text-color"
+                            aria-label="Reset tab text color">Reset</button>
+                </div>
+                <div class="control">
+                    <label for="tab-background-color">Background Color:</label>
+                    <input type="color" id="tab-background-color" value="#FFFFFF"
+                           aria-label="Choose tab background color">
+                    <button class="reset-color" data-for="tab-background-color"
+                            aria-label="Reset tab background color">Reset</button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="save-tab-settings" class="button">Save Tab Settings</button>
+                <button id="reset-tab-settings" class="button button-secondary">Reset All Tabs</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessibility Tab -->
+    <div class="tab-content hidden" id="accessibility">
+        <div class="control-group">
+            <!-- Make the entire control clickable -->
+            <button class="toggle-control" id="protection-toggle" data-active="false">
+                <div class="toggle-label">
+                    <div class="toggle-content">
+                        <span class="toggle-title">Visual Protection</span>
+                        <span class="toggle-subtitle">Enable transition protection for photosensitive users</span>
+                    </div>
+                    <span class="toggle-switch">
+                        <svg class="toggle-icon" viewBox="0 0 24 24" width="16" height="16">
+                            <path class="icon-enabled" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+                            <path class="icon-disabled" d="M12 22c1.1 0 2-.9 2-2H8c0 1.1.9 2 2 2zm6-11c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68c-.24.06-.47.15-.69.23L18 13.1V11zM5.41 3.35L4 4.76l2.81 2.81C6.29 8.57 6 9.74 6 11v5l-2 2v1h14.24l1.74 1.74 1.41-1.41L5.41 3.35zM16 17H8v-6c0-.68.12-1.32.34-1.9L16 16.76V17z"/>
+                        </svg>
+                    </span>
+                </div>
+            </button>
+
+            <div id="protection-settings" class="protection-controls disabled">
+                <div class="control">
+                    <label for="transition-speed">Transition Duration:</label>
+                    <input type="range" id="transition-speed" min="0.1" max="5.0" value="0.3" step="0.1"
+                           aria-label="Adjust transition duration in seconds">
+                    <span class="value-display" id="transition-speed-value">0.3s</span>
+                    <span class="helper-text">Duration of color scheme transitions in seconds</span>
+                </div>
+
+                <div class="button-group">
+                    <button id="save-protection" class="button">Save Protection Settings</button>
+                </div>
+
+                <div class="info-box">
+                    These settings help prevent visual disruptions during color changes.
+                    Longer durations provide better protection for photosensitive users.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+
+    <!-- Add GitHub Footer -->
+    <footer class="github-footer">
+        <a href="https://github.com/Pi-0r-Tau/Tab-specific-Browser-Theme-Manager" class="github-link" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub">
+            <svg class="github-icon" viewBox="0 0 16 16" width="20" height="20">
+                <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+        </a>
+    </footer>
+
+    <script src="popup.js"></script>
+</body>
+</html>
