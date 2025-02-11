@@ -6,6 +6,11 @@ if (window.colorSchemeInitialized) {
 } else {
     window.colorSchemeInitialized = true;
 
+    // API availability check
+    const isChromeAPIAvailable = () => {
+        return typeof chrome !== 'undefined' && chrome.runtime && chrome.storage;
+    };
+
 // Utility object for security-related functions
 const SecurityUtils = {
     // Validates and sanitizes user settings to prevent malicious inputs
@@ -155,30 +160,35 @@ const ColorSchemeManager = {
                 }
             }
 
-            // Check chrome.storage.sync for updated settings
-            chrome.storage.sync.get([
-                `domain_${hostname}`,
-                'globalSettings'
-            ], (data) => {
-                if (chrome.runtime.lastError) {
-                    console.error('Storage error:', chrome.runtime.lastError);
-                    return;
-                }
+            // Check if Chrome API is available before using it
+            if (isChromeAPIAvailable()) {
+                chrome.storage.sync.get([
+                    `domain_${hostname}`,
+                    'globalSettings'
+                ], (data) => {
+                    if (chrome.runtime.lastError) {
+                        console.error('Storage error:', chrome.runtime.lastError);
+                        return;
+                    }
 
-                let settings = data[`domain_${hostname}`] ||
-                              data.globalSettings ||
-                              this.defaultSettings;
+                    let settings = data[`domain_${hostname}`] ||
+                                  data.globalSettings ||
+                                  this.defaultSettings;
 
-                settings = SecurityUtils.sanitizeSettings(settings);
+                    settings = SecurityUtils.sanitizeSettings(settings);
 
-                this.applySettings(settings);
+                    this.applySettings(settings);
 
-                try {
-                    sessionStorage.setItem(`colorScheme_${hostname}`, JSON.stringify(settings));
-                } catch (storageError) {
-                    console.error('Session storage error:', storageError);
-                }
-            });
+                    try {
+                        sessionStorage.setItem(`colorScheme_${hostname}`, JSON.stringify(settings));
+                    } catch (storageError) {
+                        console.error('Session storage error:', storageError);
+                    }
+                });
+            } else {
+                console.warn('Chrome API not available, using default settings');
+                this.applySettings(this.defaultSettings);
+            }
         } catch (error) {
             this.handleError(error);
         }
@@ -189,9 +199,7 @@ const ColorSchemeManager = {
         try {
             if (!document.documentElement || !document.body) return false;
 
-            // Always get latest protection settings from storage first
-            chrome.storage.sync.get(['protectionSettings'], (data) => {
-                const protectionSettings = data.protectionSettings || {};
+            const applySettingsWithProtection = (protectionSettings = {}) => {
                 const sanitizedSettings = SecurityUtils.sanitizeSettings({
                     ...settings,
                     protectionEnabled: protectionSettings.protectionEnabled ?? settings.protectionEnabled,
@@ -264,7 +272,17 @@ const ColorSchemeManager = {
                 });
 
                 return true;
-            });
+            };
+
+            if (isChromeAPIAvailable()) {
+                chrome.storage.sync.get(['protectionSettings'], (data) => {
+                    applySettingsWithProtection(data.protectionSettings || {});
+                });
+            } else {
+                applySettingsWithProtection({});
+            }
+
+            return true;
         } catch (error) {
             this.handleError(error);
             return false;
@@ -380,6 +398,11 @@ const ColorSchemeManager = {
 
     // Listens for messages from the background script
     listenForMessages() {
+        if (!isChromeAPIAvailable()) {
+            console.warn('Chrome API not available, message listening disabled');
+            return;
+        }
+
         chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             try {
                 if (!sender.id || sender.id !== chrome.runtime.id) {
