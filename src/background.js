@@ -8,41 +8,59 @@ const StorageManager = {
     processing: false,
     lastWrite: 0,
     THROTTLE_MS: 2000, // Minimum time between writes
+    MAX_BATCH_SIZE: 5, // Maximum number of operations to batch
+    writeTimeout: null,
 
     async write(key, value) {
         return new Promise((resolve, reject) => {
             this.queue.push({ key, value, resolve, reject });
-            this.processQueue();
+            this.scheduleProcessing();
         });
+    },
+
+    scheduleProcessing() {
+        if (this.writeTimeout) {
+            clearTimeout(this.writeTimeout);
+        }
+
+        this.writeTimeout = setTimeout(() => {
+            this.processQueue();
+        }, Math.max(0, this.THROTTLE_MS - (Date.now() - this.lastWrite)));
     },
 
     async processQueue() {
         if (this.processing || this.queue.length === 0) return;
 
         this.processing = true;
-        const now = Date.now();
-        const timeSinceLastWrite = now - this.lastWrite;
+        const batch = {};
+        const operations = this.queue.splice(0, this.MAX_BATCH_SIZE);
 
-        if (timeSinceLastWrite < this.THROTTLE_MS) {
-            setTimeout(() => {
-                this.processing = false;
-                this.processQueue();
-            }, this.THROTTLE_MS - timeSinceLastWrite);
-            return;
-        }
-
-        const { key, value, resolve, reject } = this.queue.shift();
+        operations.forEach(op => {
+            batch[op.key] = op.value;
+        });
 
         try {
-            await chrome.storage.sync.set({ [key]: value });
+            await chrome.storage.sync.set(batch);
             this.lastWrite = Date.now();
-            resolve();
+            operations.forEach(op => op.resolve());
         } catch (error) {
-            reject(error);
+            operations.forEach(op => op.reject(error));
+        } finally {
+            this.processing = false;
+            if (this.queue.length > 0) {
+                this.scheduleProcessing();
+            }
         }
+    },
 
-        this.processing = false;
-        this.processQueue();
+    // Clear the queue and cancel pending operations
+    clearQueue() {
+        this.queue.forEach(op => op.reject(new Error('Queue cleared')));
+        this.queue = [];
+        if (this.writeTimeout) {
+            clearTimeout(this.writeTimeout);
+            this.writeTimeout = null;
+        }
     }
 };
 
