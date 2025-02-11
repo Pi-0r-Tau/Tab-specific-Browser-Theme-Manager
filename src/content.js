@@ -6,7 +6,7 @@ if (window.colorSchemeInitialized) {
 } else {
     window.colorSchemeInitialized = true;
 
-    // API availability check
+    // Add API availability check
     const isChromeAPIAvailable = () => {
         return typeof chrome !== 'undefined' && chrome.runtime && chrome.storage;
     };
@@ -24,7 +24,6 @@ const SecurityUtils = {
             backgroundColor: /^#[0-9A-F]{6}$/i.test(settings.backgroundColor) ?
                 settings.backgroundColor : '',
             transitionSpeed: parseFloat(settings.transitionSpeed) || 0.3,
-            overlayDuration: parseFloat(settings.overlayDuration) || 0.3,
             protectionEnabled: !!settings.protectionEnabled
         };
     },
@@ -51,8 +50,7 @@ const ColorSchemeManager = {
         textSize: 100,
         textColor: '',
         backgroundColor: '',
-        transitionSpeed: 300, // Default 300ms transition
-        overlayDuration: 300
+        transitionSpeed: 0.3
     },
 
     // Predefined color schemes for quick application
@@ -203,15 +201,11 @@ const ColorSchemeManager = {
                 const sanitizedSettings = SecurityUtils.sanitizeSettings({
                     ...settings,
                     protectionEnabled: protectionSettings.protectionEnabled ?? settings.protectionEnabled,
-                    transitionSpeed: protectionSettings.transitionSpeed ?? settings.transitionSpeed,
-                    overlayDuration: protectionSettings.overlayDuration ?? settings.overlayDuration
+                    transitionSpeed: protectionSettings.transitionSpeed ?? settings.transitionSpeed
                 });
 
-                // Set transition time based on protection state
-                const transitionTime = sanitizedSettings.protectionEnabled ?
-                    `${sanitizedSettings.transitionSpeed}s` : '0.3s';
-
-                // Apply transitions
+                // Set transition time
+                const transitionTime = `${sanitizedSettings.transitionSpeed}s`;
                 const transitions = `
                     filter ${transitionTime} ease,
                     font-size ${transitionTime} ease,
@@ -225,13 +219,7 @@ const ColorSchemeManager = {
                     color ${transitionTime} ease
                 `;
 
-                // Only create overlay if protection is explicitly enabled
-                if (sanitizedSettings.protectionEnabled === true) {
-                    const overlayDuration = `${sanitizedSettings.overlayDuration}s`;
-                    this.createProtectionOverlay(transitionTime, overlayDuration, sanitizedSettings);
-                }
-
-                // Colour scheme application
+                // Color scheme application
                 requestAnimationFrame(() => {
                     let filterString = '';
                     switch (sanitizedSettings.colorScheme) {
@@ -262,7 +250,6 @@ const ColorSchemeManager = {
                             break;
                     }
 
-                    // Apply brightness
                     if (sanitizedSettings.brightnessLevel !== 100) {
                         filterString += `brightness(${sanitizedSettings.brightnessLevel / 100})`;
                     }
@@ -289,85 +276,20 @@ const ColorSchemeManager = {
         }
     },
 
-    createProtectionOverlay(transitionTime, overlayDuration, settings) {
-        // Remove any existing overlay first
-        const existingOverlay = document.getElementById('color-scheme-overlay');
-        if (existingOverlay) {
-            existingOverlay.remove();
-        }
-
-        // Create new overlay only if protection is enabled
-        if (settings.protectionEnabled) {
-            const overlay = document.createElement('div');
-            overlay.id = 'color-scheme-overlay';
-            overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: ${settings.colorScheme === 'darkMode' ? '#1E1E1E' : '#FFFFFF'};
-                opacity: 0;
-                pointer-events: none;
-                z-index: 2147483647;
-                transition: opacity ${transitionTime} ease;
-            `;
-            document.body.appendChild(overlay);
-
-            requestAnimationFrame(() => {
-                overlay.style.opacity = '1';
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
-                }, parseFloat(overlayDuration) * 1000);
-            });
-        }
-    },
-
     resetSettings() {
         try {
             const hostname = window.location.hostname;
-            const transitionTime = '0.3s';
-
-            // Create overlay for reset transition
-            const overlay = document.createElement('div');
-            overlay.id = 'color-scheme-overlay';
-            overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: #FFFFFF;
-                opacity: 0;
-                pointer-events: none;
-                z-index: 2147483647;
-                transition: opacity ${transitionTime} ease;
-            `;
-            document.body.appendChild(overlay);
-
-            // Fade in overlay
-            requestAnimationFrame(() => {
-                overlay.style.opacity = '1';
-
-                setTimeout(() => {
-                    document.documentElement.style.transition = '';
-                    document.body.style.transition = '';
-                    document.documentElement.style.filter = '';
-                    document.documentElement.style.fontSize = '';
-                    document.body.style.color = '';
-                    document.body.style.backgroundColor = '';
-
-                    // Fade out overlay
-                    setTimeout(() => {
-                        overlay.style.opacity = '0';
-                        setTimeout(() => overlay.remove(), 300);
-                    }, 50);
-                }, 50);
-            });
+            document.documentElement.style.transition = '';
+            document.body.style.transition = '';
+            document.documentElement.style.filter = '';
+            document.documentElement.style.fontSize = '';
+            document.body.style.color = '';
+            document.body.style.backgroundColor = '';
 
             sessionStorage.removeItem(`colorScheme_${hostname}`);
-            chrome.storage.sync.remove(`domain_${hostname}`);
+            if (isChromeAPIAvailable()) {
+                chrome.storage.sync.remove(`domain_${hostname}`);
+            }
             return true;
         } catch (error) {
             console.error('Error resetting settings:', error);
