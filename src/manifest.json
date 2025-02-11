@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Colour Scheme Extension",
+    "version": "1.0",
+    "description": "Apply different color schemes and brightness levels to various tabs for enhanced readability.",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "tabs",
+      "scripting",
+      "tabGroups"
+    ],
+    "action": {
+      "default_popup": "src/popup.html"
+    },
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "content_scripts": [{
+      "matches": ["<all_urls>"],
+      "js": ["src/content.js"],
+      "run_at": "document_start"
+    }]
+}
