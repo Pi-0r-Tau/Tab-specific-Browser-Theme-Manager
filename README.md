@@ -38,3 +38,4 @@ EdgeColorSchemeExtension/
 ├── manifest.json       # Extension configuration
 └── README.md          # Documentation
 ```
+![image](https://github.com/user-attachments/assets/202d42fc-2172-4926-863b-ba58035963d2)
