@@ -38,3 +38,38 @@ EdgeColorSchemeExtension/
 ├── manifest.json       # Extension configuration
 └── README.md          # Documentation
 ```
+
+```mermaid
+graph TD
+    A[Browser Action] -->|Click Event| B[Popup Interface]
+    B -->|Color Selection| C[Background Script]
+    B -->|Filter Settings| C
+    B -->|Save Preferences| D[Storage API]
+
+    C -->|Initialize| D
+    C -->|Read State| D
+    C -->|Write State| D
+    C -->|Tab Management| E[Tab Controller]
+
+    C -->|Message Passing| F[Content Script]
+    F -->|querySelector| G[DOM Elements]
+    F -->|Style Injection| G
+    F -->|CSS Matrix| G
+    F -->|Filter Application| G
+
+    H[MutationObserver] -->|DOM Changes| F
+    H -->|Dynamic Content| G
+
+    I[Service Worker] -->|Lifecycle| C
+    I -->|Event Handling| C
+
+    J[IndexedDB] -->|Large Data| D
+    K[localStorage] -->|Preferences| D
+
+    L[Browser APIs] -->|chrome.tabs| E
+    L -->|chrome.storage| D
+    L -->|chrome.runtime| C
+
+    G -->|Performance Metrics| M[DevTools]
+    G -->|Rendering| N[Webpage Display]
+```
