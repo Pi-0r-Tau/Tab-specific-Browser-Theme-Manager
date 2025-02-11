@@ -1,0 +1,549 @@
+/* Base styles */
+body {
+    width: 320px;
+    padding: 16px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    display: flex;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+}
+
+.tab-button.active {
+    border-bottom-color: #0078d4;
+    color: #0078d4;
+}
+
+/* Controls */
+.control {
+    margin-bottom: 16px;
+}
+
+.control label {
+    display: block;
+    margin-bottom: 4px;
+    color: #ffffff;
+}
+
+.control select,
+.control input[type="range"],
+.control input[type="color"] {
+    width: 100%;
+    padding: 4px;
+    margin-bottom: 4px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+    border-color: #3d3d3d;
+}
+
+.control input[type="color"] {
+    height: 40px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.value-display {
+    font-size: 0.9em;
+    color: #cccccc;
+}
+
+/* Custom Controls */
+.control-group {
+    border: 1px solid #3d3d3d;
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 4px;
+    background-color: #2d2d2d;
+}
+
+.control-group h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.button {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0078d4;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #106ebe;
+}
+
+.button-secondary {
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+.button-secondary:hover {
+    background-color: #3d3d3d;
+}
+
+.reset-color {
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+/* Tab List */
+.tab-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.tab-item {
+    padding: 8px;
+    margin-bottom: 4px;
+    border: 1px solid #3d3d3d;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #2d2d2d;
+}
+
+.tab-item:hover {
+    background-color: #3d3d3d;
+}
+
+.tab-item.active {
+    border-color: #0078d4;
+    background-color: #0078d4;
+    color: #ffffff;
+}
+
+/* Status Message */
+.status {
+    margin-top: 16px;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #cccccc;
+    text-align: center;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Accessibility */
+:focus {
+    outline: 2px solid #0078d4;
+    outline-offset: 2px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    h2, h3 {
+        color: #ffffff;
+    }
+
+    .tab-button {
+        color: #ffffff;
+    }
+
+    .tab-button.active {
+        border-bottom-color: #0078d4;
+        color: #0078d4;
+    }
+
+    .control label {
+        color: #ffffff;
+    }
+
+    .value-display {
+        color: #cccccc;
+    }
+
+    .control select,
+    .control input[type="range"],
+    .control input[type="color"] {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border-color: #3d3d3d;
+    }
+
+    .control-group {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+    }
+
+
+    .button-secondary {
+        background-color: #2d2d2d;
+        color: #ffffff;
+    }
+
+    .button-secondary:hover {
+        background-color: #3d3d3d;
+    }
+
+    .tab-item {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+    }
+
+    .tab-item:hover {
+        background-color: #3d3d3d;
+    }
+
+    .tab-item.active {
+        background-color: #0078d4;
+        border-color: #0078d4;
+        color: #ffffff;
+    }
+
+
+    .status {
+        color: #cccccc;
+    }
+
+    .github-link {
+        color: #cccccc;
+    }
+
+    .github-link:hover {
+        color: #0078d4;
+    }
+}
+
+/* Smooth Transitions */
+* {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                filter 0.3s ease;
+}
+
+/* Checkbox */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Toggle Switch Styles */
+.toggle-control {
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background-color: #2d2d2d;
+    transition: all 0.3s ease;
+    border: 1px solid #3d3d3d;
+    cursor: pointer;
+    text-align: left;
+    display: block;
+}
+
+
+.toggle-control,
+.toggle-control * {
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-control:hover {
+    background-color: #363636;
+}
+
+.toggle-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.toggle-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toggle-title {
+    font-weight: 500;
+    color: #ffffff;
+    font-size: 0.95em;
+}
+
+.toggle-subtitle {
+    color: #cccccc;
+    font-size: 0.8em;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 46px;
+    height: 26px;
+    background: #444;
+    border-radius: 13px;
+    padding: 3px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.toggle-switch:before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    left: 3px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-control[data-active="true"] .toggle-switch {
+    background: #0078d4;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
+}
+
+.toggle-control[data-active="true"] .toggle-switch:before {
+    transform: translateX(20px);
+}
+
+.toggle-icon {
+    position: absolute;
+    z-index: 2;
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s ease;
+    right: 5px;
+}
+
+.toggle-icon path {
+    fill: #666;
+    stroke: none;
+    transition: opacity 0.3s ease;
+}
+
+.icon-locked, .icon-unlocked {
+    opacity: 0;
+}
+
+.toggle-control[data-active="true"] .icon-locked {
+    opacity: 1;
+}
+
+.toggle-control[data-active="true"] .icon-unlocked {
+    opacity: 0;
+}
+
+.toggle-control:not([data-active="true"]) .icon-locked {
+    opacity: 0;
+}
+
+.toggle-control:not([data-active="true"]) .icon-unlocked {
+    opacity: 1;
+}
+
+.toggle-control[data-active="true"] .toggle-icon {
+    right: unset;
+    left: 5px;
+}
+
+.toggle-control[data-active="true"] .toggle-icon path {
+    fill: white;
+}
+
+/* Active state feedback */
+.toggle-control[data-active="true"] {
+    background-color: #f0f7ff;
+    border-color: #0078d4;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .toggle-control {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+    }
+
+    .toggle-control:hover {
+        background-color: #363636;
+    }
+
+    .toggle-title {
+        color: #ffffff;
+    }
+
+    .toggle-subtitle {
+        color: #999;
+    }
+
+    .toggle-switch {
+        background: #444;
+    }
+
+    .toggle-icon {
+        color: #888;
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,0.4));
+    }
+
+    .toggle-control[data-active="true"] .toggle-icon {
+        color: #fff;
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+    }
+
+    .toggle-control[data-active="true"] {
+        background-color: #193255;
+        border-color: #0078d4;
+    }
+
+    .toggle-icon path {
+        fill: #888;
+    }
+
+    .toggle-control[data-active="true"] .toggle-icon path {
+        fill: white;
+    }
+}
+
+/* Active state feedback */
+.toggle-control[data-active="true"] {
+    background-color: #f0f7ff;
+}
+
+@media (prefers-color-scheme: dark) {
+    .toggle-control[data-active="true"] {
+        background-color: #193255;
+    }
+}
+
+
+.theme-toggle {
+    display: none;
+}
+
+
+/* Helper Text */
+.helper-text {
+    display: block;
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 4px;
+}
+
+/* Info Box */
+.info-box {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #193255;
+    border: 1px solid #0078d4;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #cccccc;
+}
+
+/* Accessibility Control Group */
+#accessibility .control-group {
+    margin-bottom: 24px;
+}
+
+/* Protection Controls */
+.protection-controls {
+    opacity: 1;
+    max-height: 500px;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+    overflow: hidden;
+}
+
+.protection-controls.disabled {
+    opacity: 0.5;
+    max-height: 0;
+    pointer-events: none;
+}
+
+/* Accessibility Toggle specific styles */
+#accessibility .toggle-control {
+    margin-bottom: 20px;
+    border-color: #0078d4;
+}
+
+#accessibility .toggle-icon path {
+    transition: opacity 0.3s ease;
+}
+
+.icon-enabled, .icon-disabled {
+    opacity: 0;
+}
+
+.toggle-control[data-active="true"] .icon-enabled {
+    opacity: 1;
+}
+
+.toggle-control[data-active="false"] .icon-disabled {
+    opacity: 1;
+}
+
+/* GitHub Footer */
+.github-footer {
+    margin-top: 16px;
+    text-align: center;
+    padding: 8px 0;
+    border-top: 1px solid #3d3d3d;
+}
+
+.github-link {
+    color: #cccccc;
+    transition: color 0.3s ease;
+}
+
+.github-link:hover {
+    color: #0078d4;
+}
+
+.github-icon {
+    vertical-align: middle;
+}
