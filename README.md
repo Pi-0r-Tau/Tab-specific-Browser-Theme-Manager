@@ -19,8 +19,12 @@ But stores preferences in local storage so site A is always what I set it as.
 ## Usage
 
 1. Navigate to website, click on the extension, make changes:
-  i.   Select RGB values or predefined matrices
-  ii. Adjust CSS filter properties
+
+   
+    i.   Select RGB values or predefined matrices
+
+   
+    ii. Adjust CSS filter properties
 
 ## Project Structure
 
